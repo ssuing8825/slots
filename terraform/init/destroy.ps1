@@ -40,6 +40,6 @@ az account show -s $config.subscriptionName
 # Deploy the infrastructure
 terraform init -backend-config="$($config.backendFile)"
 
-terraform apply -var-file="$($config.terraformVarFile)" -auto-approve
+terraform destroy -force -var-file="$($config.terraformVarFile)"  
     
 Set-Location $originalLocation
