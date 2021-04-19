@@ -58,7 +58,7 @@ steps:
     inputs:
       azureSubscription: "${{ parameters.subscription }}"
       scriptType: pscore
-      scriptPath: $(Build.SourcesDirectory)/Terraform/init/deploy.ps1
+      scriptPath: $(Build.SourcesDirectory)/terraform/init/deploy.ps1
       arguments: "-Environment ${{ parameters.environment }} -Verbose"
     env:
       TF_VAR_subscription_id: $(ARM_SUBSCRIPTION_ID)
