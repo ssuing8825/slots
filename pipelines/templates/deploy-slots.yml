@@ -30,12 +30,6 @@ steps:
         Write-Host "##vso[task.setvariable variable=ARM_CLIENT_SECRET]$($env:servicePrincipalKey)"
         Write-Host "##vso[task.setvariable variable=ARM_TENANT_ID]$(az account show --query="tenantId" -o tsv)"
 
-  - task: PowerShell@2
-    displayName: Subscription to be Deployed To
-    inputs:
-      targetType: "inline"
-      script: 'Write-Host "This is the Subscription to be deployed to: " ${{ parameters.subId }}'
-
   - task: AzurePowerShell@4
     displayName: "Writing out Directory information"
     inputs:
@@ -66,3 +60,39 @@ steps:
       TF_VAR_client_id: $(ARM_CLIENT_ID)
       TF_VAR_client_secret: $(ARM_CLIENT_SECRET)
       TF_VAR_tenant_id: $(ARM_TENANT_ID)
+
+  - task: PowerShell@2
+    displayName: Subscription to be Deployed To
+    inputs:
+      targetType: "inline"
+      script: 'Write-Host "This is the Subscription to be deployed to: " ${{ parameters.subId }}'
+
+  - task: DownloadPipelineArtifact@2
+    displayName: Download the Pipeline Artifact from Build
+    inputs:
+      artifact: SlotsFuncApp
+      path: $(Build.SourcesDirectory)
+
+  - task: AzureFunctionApp@1
+    displayName: "Deploy Slots Azure Function"
+    inputs:
+      azureSubscription: "${{ parameters.subscription }}"
+      appType: functionApp
+      appName: "${{ parameters.funcAppName }}"
+      package: $(Build.SourcesDirectory)/**/*.zip
+
+  - task: PowerShell@2
+    displayName: "Install Powershell Modules Needed"
+    inputs:
+      targetType: "inline"
+      script: |
+        Install-Module -Name Az.Accounts -Force -Scope CurrentUser
+        Install-Module -Name Az.KeyVault -Force -Scope CurrentUser
+        Install-Module -Name Az.CosmosDB -Force -Scope CurrentUser
+        Install-Module -Name Az.Functions -Force -Scope CurrentUser
+
+  # - task: PowerShell@2
+  #   displayName: Parameters used for Deployment
+  #   inputs:
+  #     targetType: "inline"
+  #     script: 'Write-Host "Function App Name : $(FunctionAppName) Vault Name : $(VaultName) Resource Group Name : $(ResourceGroupName) Cosmos Database :  $(CosmosDBName) Environment : $(Environment)"'
