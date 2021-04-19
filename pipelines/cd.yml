@@ -1,0 +1,68 @@
+trigger:
+  - main
+
+resources:
+  - repo: self
+
+pool: 
+  vmImage: ubuntu-latest
+
+variables:
+  azureServiceConnection: "TerraformServicePrinciple"
+
+stages:
+  - stage: Build
+    displayName: Build Slots
+    jobs:
+      - job: Build
+        pool: Slots Pipelines
+        displayName: Build the Slots Function App
+        steps:
+          - task: DotNetCoreCLI@2
+            displayName: "Restore project dependencies"
+            inputs:
+              command: "restore"
+              projects: "Source/*.csproj"
+
+          - task: DotNetCoreCLI@2
+            displayName: "Build the project"
+            inputs:
+              command: "build"
+              arguments: "--no-restore"
+              projects: "Source/*.csproj"
+
+          - task: DotNetCoreCLI@2
+            displayName: "Publish the project"
+            inputs:
+              command: "publish"
+              projects: "Source/*.csproj"
+              publishWebProjects: false
+              arguments: "--no-build --output $(Build.ArtifactStagingDirectory)"
+              zipAfterPublish: true
+
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: $(Build.ArtifactStagingDirectory)
+              artifactName: SlotsFuncApp
+
+  - stage: Development
+    displayName: Release to Development
+    dependsOn: Build
+    jobs:
+      - deployment: Development
+        displayName: "Deploy Slots Application and Infrastructure to the Development Environment"
+        environment:
+          name: Development
+        variables:
+          - group: Slots-dev
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - template: templates/deploy-Slots.yml
+                  parameters:
+                    subscription: TerraformServicePrinciple
+                    environment: development
+                    webAppName: webAppSlotsEusdev
+                    funcAppName: funcAppSlotsEusdev
+                    subId: Windows Azure MSDN - Visual Studio Ultimate
