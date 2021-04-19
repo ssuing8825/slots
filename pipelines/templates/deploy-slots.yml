@@ -37,8 +37,9 @@ steps:
       script: 'Write-Host "This is the Subscription to be deployed to: " ${{ parameters.subId }}'
 
   - task: AzurePowerShell@4
+    displayName: "Writing out Directory information"
     inputs:
-      azureSubscription: 'TerraformServicePrinciple'
+      azureSubscription: 'SlotsAppDevOps_ServicePrinciple'
       ScriptType: 'InlineScript'
       Inline: |
         Write-Host "Hello World from $Env:AGENT_NAME."

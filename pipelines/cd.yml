@@ -5,7 +5,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  azureServiceConnection: "TerraformServicePrinciple"
+  azureServiceConnection: "SlotsAppDevOps_ServicePrinciple"
 
 stages:
   - stage: Build
@@ -57,7 +57,7 @@ stages:
               steps:
                 - template: templates/deploy-slots.yml
                   parameters:
-                    subscription: TerraformServicePrinciple
+                    subscription: SlotsAppDevOps_ServicePrinciple
                     environment: development
                     webAppName: webAppSlotsEusdev
                     funcAppName: funcAppSlotsEusdev

@@ -1,4 +1,4 @@
-subscription_id      = "f800f678-35f3-4453-9d5f-1ce0831dada0"
+subscription_id      = "    "
 resource_group_name = "rgSLOTSeusdev"
 storage_account_name = "slotsrgdevartifacts"
 container_name = "terraform-state"
