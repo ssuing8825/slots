@@ -15,6 +15,12 @@ parameters:
 steps:
   - checkout: self
 
+  - task: PowerShell@2
+    displayName: Subscription to be Deployed To
+    inputs:
+      targetType: "inline"
+      script: 'Write-Host "This is the Subscription to be deployed to: " ${{ parameters.subId }}'
+
   - task: AzureCLI@2
     displayName: "Setup Auth for Terraform"
     inputs:
@@ -29,12 +35,6 @@ steps:
         Write-Host "##vso[task.setvariable variable=ARM_CLIENT_ID]$($env:servicePrincipalId)"
         Write-Host "##vso[task.setvariable variable=ARM_CLIENT_SECRET]$($env:servicePrincipalKey)"
         Write-Host "##vso[task.setvariable variable=ARM_TENANT_ID]$(az account show --query="tenantId" -o tsv)"
-
-  - task: PowerShell@2
-    displayName: Subscription to be Deployed To
-    inputs:
-      targetType: "inline"
-      script: 'Write-Host "This is the Subscription to be deployed to: " ${{ parameters.subId }}'
 
   - task: AzureCLI@2
     displayName: "Deploy Infrastructure with Terraform"
