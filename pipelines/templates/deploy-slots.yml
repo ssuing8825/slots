@@ -5,15 +5,15 @@ parameters:
   funcAppName: "NOT_DEFINE"
   subId : "NOT_DEFINE"
 
-resources:
-  repositories:
-  - repository: slotsGitHub # The name used to reference this repository in the checkout step
-    type: github
-    endpoint: ssuing8825
-    name: ssuing8825/slots
+# resources:
+#   repositories:
+#   - repository: slotsGitHub # The name used to reference this repository in the checkout step
+#     type: github
+#     endpoint: ssuing8825
+#     name: MyGitHubOrgOrUser/MyGitHubRepo
 
 steps:
-  - checkout: slotsGitHub
+  - checkout: self
 
   - task: AzureCLI@2
     displayName: "Setup Auth for Terraform"
