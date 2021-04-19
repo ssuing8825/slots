@@ -11,7 +11,7 @@ resource "azurerm_app_service_plan" "appSrvcPlan" {
 
 resource "azurerm_function_app" "funcApp" {
     name                        = local.funcAppName
-    resource_group_name         = var.ghkoatRgName
+    resource_group_name         = var.slotsRgName
     location                    = var.location
     app_service_plan_id         = azurerm_app_service_plan.appSrvcPlan.id
     storage_account_name        = azurerm_storage_account.funcAppSa.name
