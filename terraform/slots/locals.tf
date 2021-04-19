@@ -8,4 +8,7 @@ locals  {
     webAppName = "webApp${var.identifier}${var.region}${var.env}"
     webAppUrl = "https://${local.webAppName}.azurewebsites.net"
     appSrvcBackEnd = "appSrvcBackEnd-${var.identifier}-${var.region}-${var.env}"
+    appInsightName = "appInsights-${var.identifier}-${var.region}-${var.env}"
+    saFuncAppName = lower("${var.globalPrefix}${var.identifier}${var.region}${var.env}appsa")
+  
 }
