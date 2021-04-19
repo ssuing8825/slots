@@ -15,12 +15,6 @@ parameters:
 steps:
   - checkout: self
 
-  - task: PowerShell@2
-    displayName: Subscription to be Deployed To
-    inputs:
-      targetType: "inline"
-      script: 'Write-Host "This is the Subscription to be deployed to: " ${{ parameters.subId }}'
-
   - task: AzureCLI@2
     displayName: "Setup Auth for Terraform"
     inputs:
@@ -35,6 +29,29 @@ steps:
         Write-Host "##vso[task.setvariable variable=ARM_CLIENT_ID]$($env:servicePrincipalId)"
         Write-Host "##vso[task.setvariable variable=ARM_CLIENT_SECRET]$($env:servicePrincipalKey)"
         Write-Host "##vso[task.setvariable variable=ARM_TENANT_ID]$(az account show --query="tenantId" -o tsv)"
+
+  - task: PowerShell@2
+    displayName: Subscription to be Deployed To
+    inputs:
+      targetType: "inline"
+      script: 'Write-Host "This is the Subscription to be deployed to: " ${{ parameters.subId }}'
+
+  - task: AzurePowerShell@4
+    inputs:
+      azureSubscription: 'TerraformServicePrinciple'
+      ScriptType: 'InlineScript'
+      Inline: |
+        Write-Host "Hello World from $Env:AGENT_NAME."
+        Write-Host "My ID is $Env:AGENT_ID."
+        Write-Host "My Client ID is $Env:ARM_CLIENT_SECRET."
+        Write-Host "AGENT_WORKFOLDER contents:"
+        gci $Env:AGENT_WORKFOLDER
+        Write-Host "AGENT_BUILDDIRECTORY contents:"
+        gci $Env:AGENT_BUILDDIRECTORY
+        Write-Host "BUILD_SOURCESDIRECTORY contents:"
+        gci $Env:BUILD_SOURCESDIRECTORY
+        Write-Host "Over and out." 
+      azurePowerShellVersion: 'LatestVersion'
 
   - task: AzureCLI@2
     displayName: "Deploy Infrastructure with Terraform"
