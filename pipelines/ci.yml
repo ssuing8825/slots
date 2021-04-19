@@ -1,0 +1,39 @@
+trigger:
+  - none
+
+pool: 
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: Build
+    displayName: Build
+    jobs:
+      - job: Build
+        displayName: Build
+        steps:
+          - task: DotNetCoreCLI@2
+            displayName: "C# - Restore project dependencies"
+            inputs:
+              command: "restore"
+              projects: "**/*.csproj"
+
+          - task: DotNetCoreCLI@2
+            displayName: "C# - Build the Project"
+            inputs:
+              command: "build"
+              arguments: "--no-restore"
+              projects: "**/*.csproj"
+              
+          - task: DotNetCoreCLI@2
+            displayName: "C# - Run unit tests"
+            inputs:
+              command: "test"
+              arguments: "--no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/"
+              publishTestResults: true
+              projects: "**/*.Test.csproj"
+
+          - task: PublishCodeCoverageResults@1
+            displayName: "Publish code coverage report"
+            inputs:
+              codeCoverageTool: "Cobertura"
+              summaryFileLocation: "$(Build.SourcesDirectory)/**/coverage.cobertura.xml"
