@@ -1,0 +1,1 @@
+az ad sp create-for-rbac -n="SlotsAppDevOps" --role="Contributor" --scopes="/subscriptions/f800f678-35f3-4453-9d5f-1ce0831dada0"f-1ce0831dada0"
