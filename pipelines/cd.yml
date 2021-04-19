@@ -61,4 +61,4 @@ stages:
                     environment: development
                     webAppName: webAppSlotsEusdev
                     funcAppName: funcAppSlotsEusdev
-                    subId: Windows Azure MSDN - Visual Studio Ultimate
+                    subId: "Windows Azure MSDN - Visual Studio Ultimate"
