@@ -30,7 +30,7 @@ steps:
       scriptType: pscore
       failOnStandardError: "true"
       inlineScript: |
-        az account set --subscription ${{ parameters.subId }}
+        az account set --subscription "${{ parameters.subId }}"
         Write-Host "##vso[task.setvariable variable=ARM_SUBSCRIPTION_ID]$(az account show --query="id" -o tsv)"
         Write-Host "##vso[task.setvariable variable=ARM_CLIENT_ID]$($env:servicePrincipalId)"
         Write-Host "##vso[task.setvariable variable=ARM_CLIENT_SECRET]$($env:servicePrincipalKey)"
