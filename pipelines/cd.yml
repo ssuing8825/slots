@@ -12,7 +12,6 @@ stages:
     displayName: Build Slots
     jobs:
       - job: Build
-        pool: Slots Pipelines
         displayName: Build the Slots Function App
         steps:
           - task: DotNetCoreCLI@2
