@@ -18,20 +18,20 @@ stages:
             displayName: "Restore project dependencies"
             inputs:
               command: "restore"
-              projects: "Source/*.csproj"
+              projects: "src/**/*.csproj"
 
           - task: DotNetCoreCLI@2
             displayName: "Build the project"
             inputs:
               command: "build"
               arguments: "--no-restore"
-              projects: "Source/*.csproj"
+              projects: "src/**/*.csproj"
 
           - task: DotNetCoreCLI@2
             displayName: "Publish the project"
             inputs:
               command: "publish"
-              projects: "Source/*.csproj"
+              projects: "src/**/*.csproj"
               publishWebProjects: false
               arguments: "--no-build --output $(Build.ArtifactStagingDirectory)"
               zipAfterPublish: true
