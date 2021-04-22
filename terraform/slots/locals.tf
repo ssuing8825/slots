@@ -10,5 +10,6 @@ locals  {
     appSrvcBackEnd = "appSrvcBackEnd-${var.identifier}-${var.region}-${var.env}"
     appInsightName = "appInsights-${var.identifier}-${var.region}-${var.env}"
     saFuncAppName = lower("${var.globalPrefix}${var.identifier}${var.region}${var.env}appsa")
+    cosmosdbName = "${var.globalPrefix}-${var.identifier}-${var.region}-${var.env}-cosmosdb"
   
 }
