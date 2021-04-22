@@ -79,7 +79,7 @@ steps:
       azureSubscription: "${{ parameters.subscription }}"
       appType: functionApp
       appName: "${{ parameters.funcAppName }}"
-      package: $(Build.SourcesDirectory)/**/*.zip
+      package: $(Build.SourcesDirectory)/**/FunctionProj.zip
 
   - task: PowerShell@2
     displayName: "Install Powershell Modules Needed"
