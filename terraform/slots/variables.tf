@@ -37,3 +37,6 @@ variable "appPlanSize" {
 variable "msftWebAppId" {
     type = string
 }
+variable "cosmosDBfailover" {
+    type = string
+}
