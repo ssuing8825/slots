@@ -25,10 +25,10 @@ resource "azurerm_cosmosdb_account" "cosmosdbAcc" {
     max_staleness_prefix    = 100
   }
 
-  geo_location {
-    location          = "eastus 2"
-    failover_priority = 1
-  }
+  # geo_location {
+  #   location          = "eastus 2"
+  #   failover_priority = 1
+  # }
 
   geo_location {
     location          = var.location
