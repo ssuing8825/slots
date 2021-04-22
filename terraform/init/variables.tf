@@ -48,3 +48,6 @@ variable "appSubnetPrefix" {
 variable "msftWebAppId" {
     type = string
 }
+variable "cosmosDBfailover" {
+    type = string
+}

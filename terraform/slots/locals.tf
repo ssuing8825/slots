@@ -12,4 +12,10 @@ locals  {
     saFuncAppName = lower("${var.globalPrefix}${var.identifier}${var.region}${var.env}appsa")
     cosmosdbName = "${var.globalPrefix}-${var.identifier}-${var.region}-${var.env}-cosmosdb"
   
+  sqlContainers = {
+        FlowEvents = {
+            name    = "FlowEvents"
+            keyPath = "/PolicyNumber"
+        }
+   }
 }
