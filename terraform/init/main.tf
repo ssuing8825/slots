@@ -27,4 +27,5 @@ module "slots" {
     appSkuTier      = var.appSkuTier
     appPlanSize     = var.appPlanSize
     msftWebAppId    = var.msftWebAppId
+    cosmosDBfailover    = var.cosmosDBfailover
 }
