@@ -34,7 +34,7 @@ namespace FunctionProj
             // Create a new IConfigurationRoot and add our configuration along with Azure's original configuration 
 			this.Configuration = new ConfigurationBuilder()
 				.SetBasePath(currentDirectory)
-				.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+				.AddJsonFile("appsettings.dev.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables()
 				.Build();
 
