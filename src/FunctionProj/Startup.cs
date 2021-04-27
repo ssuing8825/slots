@@ -34,8 +34,8 @@ namespace FunctionProj
             // Create a new IConfigurationRoot and add our configuration along with Azure's original configuration 
 			this.Configuration = new ConfigurationBuilder()
 				.SetBasePath(currentDirectory)
-				.AddConfiguration(configuration) // Add the original function configuration 
 				.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddEnvironmentVariables()
 				.Build();
 
 			// Replace the Azure Function configuration with our new one
@@ -50,16 +50,6 @@ namespace FunctionProj
                     .WithBulkExecution(true)
                     .Build();
             });
-        }
-
-        public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)
-        {
-            FunctionsHostBuilderContext context = builder.GetContext();
-
-            builder.ConfigurationBuilder
-                .AddJsonFile(Path.Combine(context.ApplicationRootPath, "appsettings.json"), optional: true, reloadOnChange: false)
-                .AddJsonFile(Path.Combine(context.ApplicationRootPath, $"appsettings.{context.EnvironmentName}.json"), optional: true, reloadOnChange: false)
-                .AddEnvironmentVariables();
         }
     }
 }
