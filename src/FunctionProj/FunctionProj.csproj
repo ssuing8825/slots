@@ -13,7 +13,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="appsettings.dev.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>    
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory> 
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>     
   </None>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>    
