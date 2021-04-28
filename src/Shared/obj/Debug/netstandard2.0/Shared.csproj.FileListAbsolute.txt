@@ -7,3 +7,10 @@ C:\Users\Steven.Suing\source\repos\slots\src\FunctionProj\bin\output\Shared.dll
 C:\Users\Steven.Suing\source\repos\slots\src\FunctionProj\bin\output\Shared.pdb
 C:\Users\Steven.Suing\source\repos\slots\src\Shared\obj\Debug\netstandard2.0\Shared.dll
 C:\Users\Steven.Suing\source\repos\slots\src\Shared\obj\Debug\netstandard2.0\Shared.pdb
+C:\Users\Steven.Suing\source\repos\slots\src\FunctionProj\bin\output\Microsoft.Azure.Cosmos.ServiceInterop.dll
+C:\Users\Steven.Suing\source\repos\slots\src\FunctionProj\bin\output\Cosmos.CRTCompat.dll
+C:\Users\Steven.Suing\source\repos\slots\src\Shared\bin\Debug\netstandard2.0\Microsoft.Azure.Cosmos.ServiceInterop.dll
+C:\Users\Steven.Suing\source\repos\slots\src\Shared\bin\Debug\netstandard2.0\Cosmos.CRTCompat.dll
+C:\Users\Steven.Suing\source\repos\slots\src\Shared\bin\Debug\netstandard2.0\Shared.deps.json
+C:\Users\Steven.Suing\source\repos\slots\src\Shared\bin\Debug\netstandard2.0\Shared.dll
+C:\Users\Steven.Suing\source\repos\slots\src\Shared\bin\Debug\netstandard2.0\Shared.pdb

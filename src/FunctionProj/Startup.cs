@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Shared.Model.Settings;
+using Shared.Services;
 using System.IO;
 using System.Linq;
 
@@ -18,38 +20,65 @@ namespace FunctionProj
 
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            builder.Services.AddLogging(loggingBuilder =>
-            {
-                loggingBuilder.AddFilter(level => true);
-            });
-
-
-            var executionContextOptions = builder.Services.BuildServiceProvider().GetService<IOptions<ExecutionContextOptions>>().Value;
-			
-			var currentDirectory = executionContextOptions.AppDirectory;
-            
-            // Get the original configuration provider from the Azure Function
-			var configuration = builder.Services.BuildServiceProvider().GetService<IConfiguration>();
-			
-            // Create a new IConfigurationRoot and add our configuration along with Azure's original configuration 
-			this.Configuration = new ConfigurationBuilder()
-				.SetBasePath(currentDirectory)
-				.AddJsonFile("appsettings.dev.json", optional: true, reloadOnChange: true)
-                .AddEnvironmentVariables()
-				.Build();
-
-			// Replace the Azure Function configuration with our new one
-            var config = (IConfiguration)builder.Services.First(d => d.ServiceType == typeof(IConfiguration)).ImplementationInstance;
-
-            builder.Services.AddSingleton((s) =>
-            {
-                CosmosClientBuilder cosmosClientBuilder = new CosmosClientBuilder(this.Configuration.GetConnectionString("CosmosDb"));
-
-                return cosmosClientBuilder.WithConnectionModeDirect()
-                    .WithApplicationRegion("East US 2")
-                    .WithBulkExecution(true)
-                    .Build();
-            });
+            ConfigureAppSettings(builder);
+            ConfigureDependencyInjection(builder);
         }
+
+        private static void ConfigureAppSettings(IFunctionsHostBuilder builder)
+        {
+            builder.Services.AddOptions<CosmosSettings>().Configure<IConfiguration>(
+                (settings, config) => config.GetSection("Cosmos").Bind(settings));
+
+        }
+         private static void ConfigureDependencyInjection(IFunctionsHostBuilder builder)
+    {
+                //   builder.Services.AddHttpClient<IEphApiService, EphApiService>();
+                //   builder.Services.AddHttpClient<IKitVendorService, GbfService>();
+                //   builder.Services.AddHttpClient<IPwnService, PwnService>();
+                //   builder.Services.AddHttpClient<IQuanumService, QuanumService>();
+
+
+      builder.Services
+        .AddSingleton<ICosmosService, CosmosService>();
+        // .AddSingleton<IGhkoatRepository, GhkoatRepository>()
+        // .AddSingleton<IJwtService, JwtService>()
+        // .AddSingleton<IOauth2TokenAcquisition, Oauth2TokenAcquisition>()
+        // .AddSingleton<IHttpClientExtensionMethodProxy, HttpClientExtensionMethodProxy>();
+
+      // Core Validators
+    //   builder.Services
+    //     .AddTransient<IValidator<KitOrderRequest>, KitOrderRequestValidator>()
+    //     .AddTransient<IValidator<Address>, AddressValidator>()
+    //     .AddTransient<IValidator<OrderDetail>, OrderDetailValidator>()
+    //     .AddTransient<IValidator<Order>, OrderValidator>()
+    //     .AddTransient<IValidator<ParticipantInfo>, ParticipantInfoValidator>()
+    //     .AddTransient<IValidator<ShippingPreferences>, ShippingPreferencesValidator>()
+    //     .AddTransient<IValidator<ProcessedOrder>, ProcessedOrderValidator>()
+    //     .AddTransient<IValidator<RejectedOrder>, RejectedOrderValidator>()
+    //     .AddTransient<IValidator<OrderStatusUpdate>, OrderStatusUpdateValidator>()
+    //     .AddTransient<IHttpRequestValidationWrapper<LabOrderDetailsRequest>, HttpRequestValidationWrapper<LabOrderDetailsRequest>>()
+    //     .AddTransient<IHttpRequestValidationWrapper<KitOrderRequest>, HttpRequestValidationWrapper<KitOrderRequest>>()
+    //     .AddTransient<IHttpRequestValidationWrapper<OrderStatusUpdate>, HttpRequestValidationWrapper<OrderStatusUpdate>>();
+
+      // GBF validators
+    //   builder.Services
+    //     .AddTransient<IValidator<GbfModels.OrderRequest>, GbfValidators.OrderRequestValidator>()
+    //     .AddTransient<IValidator<GbfModels.Order>, GbfValidators.OrderValidator>()
+    //     .AddTransient<IValidator<GbfModels.OrderDetails>, GbfValidators.OrderDetailsValidator>();
+
+    //   // Lab Order Validators
+    //   builder.Services
+    //     .AddTransient<IValidator<LabOrderDetailsRequest>, LabOrderDetailsRequestValidator>()
+    //     .AddTransient<IValidator<LabOrderInfo>, LabOrderInfoValidator>()
+    //     .AddTransient<IValidator<EmployerInfo>, EmployerInfoValidator>()
+    //     .AddTransient<IValidator<MedicalDirector>, MedicalDirectorValidator>()
+    //     .AddTransient<IValidator<PersonName>, PersonNameValidator>()
+    //     .AddTransient<IValidator<PatientAddress>, PatientAddressValidator>()
+    //     .AddTransient<IValidator<PatientDemographics>, PatientDemographicsValidator>()
+    //     .AddTransient<IValidator<PhoneNumber>, PhoneNumberValidator>()
+    //     .AddTransient<IValidator<LabLocationInfo>, LabLocationInfoValidator>()
+    //     .AddTransient<IValidator<ServiceDetail>, ServiceDetailValidator>()
+    //     .AddTransient<IValidator<ServiceDetailService>, ServiceDetailServiceValidator>();
+    }
     }
 }
