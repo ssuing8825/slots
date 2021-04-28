@@ -96,3 +96,37 @@ steps:
   #   inputs:
   #     targetType: "inline"
   #     script: 'Write-Host "Function App Name : $(FunctionAppName) Vault Name : $(VaultName) Resource Group Name : $(ResourceGroupName) Cosmos Database :  $(CosmosDBName) Environment : $(Environment)"'
+
+  # - task: AzurePowerShell@5
+  #   displayName: "Update Slots Settings"
+  #   inputs:
+  #     azureSubscription: "${{parameters.subscription}}"
+  #     scriptType: filePath
+  #     scriptPath: $(Build.SourcesDirectory)/Scripts/updateFuncApp.ps1
+  #     scriptArguments: -FunctionAppName $(FunctionAppName) `
+  #       -VaultName $(VaultName) `
+  #       -ResourceGroupName $(ResourceGroupName) `
+  #       -CosmosDb $(CosmosDBName) `
+  #       -Environment ${{ parameters.environment }} -Verbose
+  #     azurePowerShellVersion: latestVersion
+  #     pwsh: true
+
+  - task: PowerShell@2
+    displayName: Parameters used for Deployment
+    inputs:
+      targetType: "inline"
+      script: 'Write-Host "Function App Name : $(FunctionAppName) Vault Name : NeedVaultName Resource Group Name : $(ResourceGroupName) Cosmos Database :  $(CosmosDBName) Environment : $(Environment)"'
+
+  - task: AzurePowerShell@5
+    displayName: "Update Slots Settings"
+    inputs:
+      azureSubscription: "${{parameters.subscription}}"
+      scriptType: filePath
+      scriptPath: $(Build.SourcesDirectory)/Scripts/updateFuncApp.ps1
+      scriptArguments: -FunctionAppName $(FunctionAppName) `
+        -VaultName NeedVaultName `
+        -ResourceGroupName $(ResourceGroupName) `
+        -CosmosDb $(CosmosDBName) `
+        -Environment ${{ parameters.environment }} -Verbose
+      azurePowerShellVersion: latestVersion
+      pwsh: true
