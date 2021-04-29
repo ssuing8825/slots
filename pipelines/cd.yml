@@ -50,14 +50,14 @@ stages:
         environment:
           name: Development
         variables:
-          - group: Slots-dev
+          - template: templates/development-variables.yml # Template reference
         strategy:
           runOnce:
             deploy:
               steps:
                 - template: templates/deploy-slots.yml
                   parameters:
-                    subscription: SlotsAppDevOps_ServicePrinciple
+                    subscription: $(azureServiceConnection) 
                     environment: development
                     webAppName: webAppSlotsEusdev
                     funcAppName: funcAppSlotsEusdev

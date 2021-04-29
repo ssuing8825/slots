@@ -1,0 +1,5 @@
+# File: development-variables.yml
+variables:
+  ResourceGroupName: 'rgSLOTSeusdev'
+  CosmosDBName: 'slots'
+  azureServiceConnection: "SlotsAppDevOps_ServicePrinciple"
