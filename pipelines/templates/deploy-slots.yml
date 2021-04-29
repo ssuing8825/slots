@@ -5,6 +5,9 @@ parameters:
   funcAppName: "NOT_DEFINE"
   subId : "NOT_DEFINE"
 
+variables:
+  template: ${{ parameters.environment }}-variables.yml
+
 # resources:
 #   repositories:
 #   - repository: slotsGitHub # The name used to reference this repository in the checkout step
@@ -115,18 +118,18 @@ steps:
     displayName: Parameters used for Deployment
     inputs:
       targetType: "inline"
-      script: 'Write-Host "Function App Name : $(FunctionAppName) Vault Name : NeedVaultName Resource Group Name : $(ResourceGroupName) Cosmos Database :  $(CosmosDBName) Environment : $(Environment)"'
+      script: 'Write-Host "Function App Name : ${{ parameters.funcAppName }} Vault Name : NeedVaultName Resource Group Name : ${{ variables.ResourceGroupName }} Cosmos Database : ${{ variables.CosmosDBName }} Environment :  ${{ parameters.funcAppName }}"'
 
-  - task: AzurePowerShell@5
-    displayName: "Update Slots Settings"
-    inputs:
-      azureSubscription: "${{parameters.subscription}}"
-      scriptType: filePath
-      scriptPath: $(Build.SourcesDirectory)/Scripts/updateFuncApp.ps1
-      scriptArguments: -FunctionAppName $(FunctionAppName) `
-        -VaultName NeedVaultName `
-        -ResourceGroupName $(ResourceGroupName) `
-        -CosmosDb $(CosmosDBName) `
-        -Environment ${{ parameters.environment }} -Verbose
-      azurePowerShellVersion: latestVersion
-      pwsh: true
+  # - task: AzurePowerShell@5
+  #   displayName: "Update Slots Settings"
+  #   inputs:
+  #     azureSubscription: "${{parameters.subscription}}"
+  #     scriptType: filePath
+  #     scriptPath: $(Build.SourcesDirectory)/Scripts/updateFuncApp.ps1
+  #     scriptArguments: -FunctionAppName $(FunctionAppName) `
+  #       -VaultName NeedVaultName `
+  #       -ResourceGroupName $(ResourceGroupName) `
+  #       -CosmosDb $(CosmosDBName) `
+  #       -Environment ${{ parameters.environment }} -Verbose
+  #     azurePowerShellVersion: latestVersion
+  #     pwsh: true
