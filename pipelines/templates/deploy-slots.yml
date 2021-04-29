@@ -6,7 +6,7 @@ parameters:
   subId : "NOT_DEFINE"
 
 variables:
-  template: ${{ parameters.environment }}-variables.yml
+- template: ${{ parameters.environment }}-variables.yml # Template reference
 
 # resources:
 #   repositories:
