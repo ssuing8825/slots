@@ -115,7 +115,7 @@ steps:
     displayName: Parameters used for Deployment
     inputs:
       targetType: "inline"
-      script: 'Write-Host "Function App Name : ${{ parameters.funcAppName }} Vault Name : NeedVaultName Resource Group Name : ${{ variables.ResourceGroupName }} Cosmos Database : ${{ variables.CosmosDBName }} Environment :  ${{ parameters.funcAppName }}"'
+      script: 'Write-Host "Function App Name : ${{ parameters.funcAppName }} Vault Name : NeedVaultName Resource Group Name : ${ResourceGroupName} Cosmos Database : ${{ variables.CosmosDBName }} Environment :  ${{ parameters.funcAppName }}"'
 
   # - task: AzurePowerShell@5
   #   displayName: "Update Slots Settings"
